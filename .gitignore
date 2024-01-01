@@ -14,3 +14,6 @@ instance/
 
 # Ignore any database files
 *.db
+
+# env
+.flaskenv
