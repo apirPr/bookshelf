@@ -9,13 +9,13 @@ function generateId() {
     return +new Date();
 }
 
-function generateAppObject(id, title, author, year, isCompleted) {
+function generateAppObject(id, title, author, year, isComplete) {
     return {
         id,
         title,
         author,
         year,
-        isCompleted,
+        isComplete,
     };
 }
 
@@ -26,7 +26,7 @@ function makeApp(appObject, isSearchResult = false) {
         title,
         author,
         year,
-        isCompleted
+        isComplete
     } = appObject;
 
     const textTitle = document.createElement('h3');
@@ -56,10 +56,10 @@ function makeApp(appObject, isSearchResult = false) {
         });
         container.append(addButton);
     } else {
-        if (isCompleted) {
+        if (isComplete) {
             const selesaiButton = document.createElement('button');
             selesaiButton.classList.add('green');
-            selesaiButton.innerText = isCompleted ? 'belum dibaca' : 'sudah dibaca';
+            selesaiButton.innerText = isComplete ? 'belum dibaca' : 'sudah dibaca';
             selesaiButton.addEventListener('click', function () {
                 selesaidiBaca(id);
             });
@@ -76,7 +76,7 @@ function makeApp(appObject, isSearchResult = false) {
         } else {
             const belumButton = document.createElement('button');
             belumButton.classList.add('green');
-            belumButton.innerText = isCompleted ? 'belum dibaca' : 'sudah dibaca';
+            belumButton.innerText = isComplete ? 'belum dibaca' : 'sudah dibaca';
             belumButton.addEventListener('click', function () {
                 belumdiBaca(id);
             });
@@ -100,8 +100,10 @@ function makeApp(appObject, isSearchResult = false) {
 function addApp() {
     const title = document.getElementById('inputBookTitle').value;
     const author = document.getElementById('inputBookAuthor').value;
-    const year = document.getElementById('inputBookYear').value;
+    const yearString = document.getElementById('inputBookYear').value;
     const finishRead = document.getElementById('inputBookIsComplete').checked;
+
+    const year = parseInt(yearString, 10);
 
 
     const generatedID = generateId();
@@ -170,7 +172,7 @@ function selesaidiBaca(appId) {
     if (appTargetIndex === -1) return;
 
     const appToMove = apps[appTargetIndex];
-    appToMove.isCompleted = false;
+    appToMove.isComplete = false;
 
     apps.splice(appTargetIndex, 1);
 
@@ -185,7 +187,7 @@ function belumdiBaca(appId) {
     if (appTargetIndex === -1) return;
 
     const appToMove = apps[appTargetIndex];
-    appToMove.isCompleted = true;
+    appToMove.isComplete = true;
 
 
     apps.splice(appTargetIndex, 1);
@@ -262,7 +264,7 @@ document.addEventListener(RENDER_EVENT, function () {
 
     for (const appItem of apps) {
         const appElement = makeApp(appItem);
-        if (!appItem.isCompleted) {
+        if (!appItem.isComplete) {
             belumBaca.append(appElement);
         } else {
             sudahBaca.append(appElement);
