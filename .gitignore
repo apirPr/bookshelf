@@ -1,0 +1,16 @@
+/__pycache__/
+
+# Ignore Python byte code files
+*.pyc
+
+# Ignore the virtual environment folder
+perpus-env/
+
+# Ignore the Flask instance folder
+instance/
+
+# Ignore any log files
+*.log
+
+# Ignore any database files
+*.db
