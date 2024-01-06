@@ -1,0 +1,20 @@
+/__pycache__/
+.flaskenv
+.env
+
+# Ignore Python byte code files
+*.pyc
+
+# Ignore the virtual environment folder
+bookshelf-env/
+
+# Ignore the Flask instance folder
+instance/
+
+# Ignore any log files
+*.log
+
+# Ignore any database files
+*.db
+
+

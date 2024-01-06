@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Bookshelf Login</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+      integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="../static/css/styleLogin.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="form signin">
+        <h2>Masuk</h2>
+        <div class="inputBox">
+          <input
+            type="email"
+            required="required"
+            name="email"
+            value="{{email}}"
+          />
+          <i class="fa-regular fa-user"></i>
+          <span>email</span>
+        </div>
+        <div class="inputBox">
+          <input type="password" required="required" name="password" id="input-password"/>
+          <i class="fa-solid fa-lock"></i>
+          <span>password</span>
+        </div>
+        <div class="inputBox" id="login">
+          <input type="submit" value="Masuk" />
+        </div>
+        <p>
+          belum daftar ?
+          <a href="http://localhost:5000/register" class="create">Buat akun</a>
+        </p>
+      </div>
+    </div>
+
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+      integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+
+    <script>
+      const loginBtn = document.querySelector('#login');
+      const inputPassword = document.getElementById("input-password");
+
+      inputPassword.addEventListener('keyup', function(event) {
+        if (event.keyCode === 13) {
+          event.preventDefault();
+          loginBtn.click();
+        }
+      });
+
+      loginBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const email = document.querySelector('input[name="email"]').value;
+        const password = document.querySelector('input[name="password"]').value;
+        $.ajax({
+          url: 'http://localhost:5000/login',
+          type: 'POST',
+          contentType: 'application/json',
+          data: JSON.stringify({
+            email: email,
+            password: password,
+          }),
+          success: function (response) {
+            window.location.href = 'http://localhost:5000/dashboard';
+          },
+          error: function (xhr, status, error) {
+            if (xhr.status === 401) {
+              alert('Kredensial tidak valid. Silakan coba lagi.');
+            } else if (xhr.status === 404) {
+              alert('Pengguna tidak terdaftar. Silakan coba lagi.');
+            } else {
+              alert('Terjadi kesalahan. Silakan coba lagi.');
+            }
+          },
+        });
+      });
+
+      let login = document.querySelector('.login');
+      let create = document.querySelector('.create');
+      let container = document.querySelector('.container');
+
+      login.onclick = function () {
+        container.classList.add('signinForm');
+      };
+
+      create.onclick = function () {
+        container.classList.remove('signinForm');
+      };
+    </script>
+    <script src="../static/js/pass.js"></script>
+  </body>
+</html>
